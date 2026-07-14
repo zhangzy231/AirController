@@ -28,7 +28,7 @@ source.exclude_patterns = _*.py
 version = 1.0.0
 
 # (str) Application requirements (comma separated)
-requirements = kivy==2.3.0, pyjnius
+requirements = python3, kivy==2.2.1, pyjnius, certifi
 
 # (str) Supported orientations (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
@@ -45,8 +45,8 @@ android.api = 33
 # (int) Minimum API required
 android.minapi = 24
 
-# (int) Android SDK version to use
-android.sdk = 33
+# (bool) Accept Android SDK license
+android.accept_sdk_license = True
 
 # (list) Android features required
 android.features = android.hardware.consumerir
@@ -72,4 +72,4 @@ log_window = 0
 log_level = 1
 
 # (int) Timeout in seconds for build operations
-build_timeout = 600
+build_timeout = 3600

@@ -28,12 +28,17 @@ jobs:
             autoconf \
             automake \
             libtool \
+            libltdl-dev \
             libffi-dev \
             libssl-dev \
             zlib1g-dev \
             libncurses5-dev \
             libncursesw5-dev \
             libtinfo5 \
+            libgdbm-dev \
+            libbz2-dev \
+            libsqlite3-dev \
+            libreadline-dev \
             cmake \
             ninja-build \
             pkg-config \
@@ -41,11 +46,17 @@ jobs:
             git \
             wget \
             unzip \
-            openjdk-17-jdk-headless \
+            zip \
+            openjdk-11-jdk-headless \
             libc6-dev \
             libx11-dev \
             libgles2-mesa-dev \
             libmtdev-dev
+
+      - name: Setup JDK
+        run: |
+          echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+          echo "PATH=/usr/lib/jvm/java-11-openjdk-amd64/bin:$PATH" >> $GITHUB_ENV
 
       - name: Install Buildozer
         run: |
@@ -54,8 +65,9 @@ jobs:
 
       - name: Build APK
         run: |
+          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
           buildozer android debug
-        timeout-minutes: 45
+        timeout-minutes: 60
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
