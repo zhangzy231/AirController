@@ -69,7 +69,13 @@ log_window = 0
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 1
+log_level = 2
 
 # (int) Timeout in seconds for build operations
 build_timeout = 3600
+
+# (str) python-for-android branch
+p4a.branch = develop
+
+# (str) NDK version (r25c is known compatible with Kivy)
+android.ndk = 25.2.9519653
