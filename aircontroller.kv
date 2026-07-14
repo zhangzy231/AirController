@@ -1,0 +1,235 @@
+#:kivy 2.3.0
+# AirController - Universal AC Remote Kivy UI
+
+<MainScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(8)
+        canvas.before:
+            Color:
+                rgba: 0.08, 0.08, 0.12, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # ---- Top Bar ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(48)
+            spacing: dp(8)
+            Button:
+                text: root.brand_text
+                size_hint_x: None
+                width: dp(80)
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 1, 1, 1, 0.8
+                font_size: "14sp"
+                on_release: app.root.current = "brand_select"
+            Widget:
+
+        # ---- Temperature Display ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(200)
+            orientation: "vertical"
+            Label:
+                text: str(root.temperature) + chr(176)
+                font_size: "96sp"
+                bold: True
+                color: (0.9, 0.95, 1, 1) if root.power_state else (0.3, 0.3, 0.35, 1)
+                halign: "center"
+                valign: "middle"
+            Label:
+                text: root.mode_text
+                font_size: "18sp"
+                color: 0.5, 0.7, 1, 1
+                halign: "center"
+
+        # ---- Temp +/- and Power ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(80)
+            spacing: dp(20)
+            Button:
+                text: "-"
+                font_size: "36sp"
+                bold: True
+                background_color: 0.12, 0.12, 0.18, 1
+                color: 0.6, 0.8, 1, 1
+                on_release: root.on_temp_down()
+            Button:
+                text: "POWER"
+                font_size: "20sp"
+                bold: True
+                background_color: (0.2, 0.8, 0.4, 0.8) if root.power_state else (0.7, 0.2, 0.2, 0.8)
+                color: 1, 1, 1, 1
+                on_release: root.on_power_toggle()
+            Button:
+                text: "+"
+                font_size: "36sp"
+                bold: True
+                background_color: 0.12, 0.12, 0.18, 1
+                color: 1, 0.4, 0.4, 1
+                on_release: root.on_temp_up()
+
+        # ---- Mode Selector ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            spacing: dp(6)
+            Button:
+                text: "Auto"
+                font_size: "13sp"
+                background_color: root.mode_colors[0]
+                color: 1, 1, 1, 1
+                on_release: root.on_mode_select(0)
+            Button:
+                text: "Cool"
+                font_size: "13sp"
+                background_color: root.mode_colors[1]
+                color: 1, 1, 1, 1
+                on_release: root.on_mode_select(1)
+            Button:
+                text: "Dry"
+                font_size: "13sp"
+                background_color: root.mode_colors[2]
+                color: 1, 1, 1, 1
+                on_release: root.on_mode_select(2)
+            Button:
+                text: "Fan"
+                font_size: "13sp"
+                background_color: root.mode_colors[3]
+                color: 1, 1, 1, 1
+                on_release: root.on_mode_select(3)
+            Button:
+                text: "Heat"
+                font_size: "13sp"
+                background_color: root.mode_colors[4]
+                color: 1, 1, 1, 1
+                on_release: root.on_mode_select(4)
+
+        # ---- Fan Speed ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(48)
+            spacing: dp(8)
+            Label:
+                text: "Fan Speed"
+                font_size: "15sp"
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_x: None
+                width: dp(80)
+            Button:
+                text: root.fan_text
+                font_size: "14sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.8, 0.8, 1, 1
+                on_release: root.on_fan_toggle()
+            Widget:
+
+        # ---- Extra Features ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(56)
+            spacing: dp(8)
+            Button:
+                text: "Swing"
+                font_size: "14sp"
+                background_color: 0.15, 0.4, 0.7, 0.8 if root.swing_active else (0.15, 0.15, 0.22, 1)
+                color: 0.8, 0.9, 1, 1 if root.swing_active else (0.5, 0.5, 0.6, 1)
+                on_release: root.on_swing_toggle()
+            Button:
+                text: "Sleep"
+                font_size: "14sp"
+                background_color: 0.15, 0.4, 0.7, 0.8 if root.sleep_active else (0.15, 0.15, 0.22, 1)
+                color: 0.8, 0.9, 1, 1 if root.sleep_active else (0.5, 0.5, 0.6, 1)
+                on_release: root.on_sleep_toggle()
+            Button:
+                text: "Turbo"
+                font_size: "14sp"
+                background_color: 0.15, 0.4, 0.7, 0.8 if root.turbo_active else (0.15, 0.15, 0.22, 1)
+                color: 0.8, 0.9, 1, 1 if root.turbo_active else (0.5, 0.5, 0.6, 1)
+                on_release: root.on_turbo_toggle()
+
+        Widget:
+
+<BrandSelectScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(12)
+        canvas.before:
+            Color:
+                rgba: 0.08, 0.08, 0.12, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Select AC Brand"
+            font_size: "22sp"
+            bold: True
+            color: 0.9, 0.95, 1, 1
+            size_hint_y: None
+            height: dp(50)
+
+        GridLayout:
+            cols: 2
+            spacing: dp(10)
+            size_hint_y: None
+            height: self.minimum_height
+            Button:
+                text: "Gree"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 1, 1, 1, 1
+                size_hint_y: None
+                height: dp(70)
+                on_release: root.on_brand_select("gree")
+            Button:
+                text: "Midea"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_y: None
+                height: dp(70)
+            Button:
+                text: "Haier"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_y: None
+                height: dp(70)
+            Button:
+                text: "TCL"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_y: None
+                height: dp(70)
+            Button:
+                text: "AUX"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_y: None
+                height: dp(70)
+            Button:
+                text: "Hisense"
+                font_size: "18sp"
+                background_color: 0.15, 0.15, 0.22, 1
+                color: 0.6, 0.6, 0.7, 1
+                size_hint_y: None
+                height: dp(70)
+
+        Widget:
+
+        Button:
+            text: "<- Back"
+            font_size: "16sp"
+            background_color: 0.15, 0.15, 0.22, 1
+            color: 0.7, 0.7, 0.8, 1
+            size_hint_y: None
+            height: dp(48)
+            on_release: app.root.current = "main"
